@@ -2,7 +2,9 @@ package com.interviewprep.backend.module.auth.controller;
 
 import com.interviewprep.backend.common.constant.Constants;
 import com.interviewprep.backend.common.response.ApiResponse;
+import com.interviewprep.backend.module.auth.dto.request.LoginRequest;
 import com.interviewprep.backend.module.auth.dto.request.RegisterRequest;
+import com.interviewprep.backend.module.auth.dto.response.LoginResponse;
 import com.interviewprep.backend.module.auth.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +26,11 @@ public class AuthController {
     public ResponseEntity<ApiResponse> register(@Valid @RequestBody RegisterRequest request) {
         authService.register(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.builder().code(Constants.USER_REGISTERED).success(true).build());
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse> login(@Valid @RequestBody LoginRequest request) {
+        LoginResponse loginResponse = authService.login(request);
+        return ResponseEntity.ok(ApiResponse.builder().code(Constants.LOGIN_SUCCESS).success(true).data(loginResponse).build());
     }
 }
