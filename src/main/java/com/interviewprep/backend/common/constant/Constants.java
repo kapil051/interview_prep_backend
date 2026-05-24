@@ -27,6 +27,7 @@ public final class Constants {
     public static final int INVALID_ARGUMENT = 4009;
     public static final int TOKEN_MISSING = 4010;
     public static final int AUTH_ERROR = 4011;
+    public static final int RESOURCE_NOT_FOUND = 4012;
 
     public static final Map<Integer, String> RESPONSE = Map.ofEntries(
 
@@ -49,6 +50,7 @@ public final class Constants {
             Map.entry(ACCESS_DENIED, "Access denied"),
             Map.entry(INVALID_ARGUMENT, "Invalid argument"),
             Map.entry(TOKEN_MISSING, "Authentication token is missing"),
-            Map.entry(AUTH_ERROR, "Authentication error")
+            Map.entry(AUTH_ERROR, "Authentication error"),
+            Map.entry(RESOURCE_NOT_FOUND, "Resource not found")
     );
 }
