@@ -1,4 +1,4 @@
-package com.prep.interview_prep_backend;
+package com.interviewprep.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
