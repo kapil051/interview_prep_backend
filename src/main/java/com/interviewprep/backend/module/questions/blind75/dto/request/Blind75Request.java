@@ -17,23 +17,23 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Blind75Request {
 
-    @NotBlank
+    @NotBlank(message = "Title is required")
     private String title;
 
-    @NotNull
+    @NotNull(message = "Difficulty is required")
     private Difficulty difficulty;
 
-    @NotNull
+    @NotNull(message = "Topic is required")
     private Topic topic;
 
-    @NotNull
+    @NotNull(message = "Pattern is required")
     private Pattern pattern;
 
-    @NotBlank
+    @NotBlank(message = "Practice link is required")
     private String practiceLink;
 
     private String videoSolutionLink;
 
-    @NotNull
+    @NotNull(message = "Video availability is required")
     private VideoAvailability videoAvailability;
 }
