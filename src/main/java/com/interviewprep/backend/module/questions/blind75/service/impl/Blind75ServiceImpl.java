@@ -3,6 +3,7 @@ package com.interviewprep.backend.module.questions.blind75.service.impl;
 import com.interviewprep.backend.common.exception.AppException;
 import com.interviewprep.backend.module.questions.blind75.dto.request.Blind75Request;
 import com.interviewprep.backend.module.questions.blind75.entity.Blind75Question;
+import com.interviewprep.backend.module.questions.blind75.exception.QuestionNotFoundException;
 import com.interviewprep.backend.module.questions.blind75.exception.QuestionsAddFailedException;
 import com.interviewprep.backend.module.questions.blind75.repository.Blind75Repository;
 import com.interviewprep.backend.module.questions.blind75.service.Blind75Service;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -53,6 +55,29 @@ public class Blind75ServiceImpl implements Blind75Service {
             throw ex;
         } catch (Exception ex) {
             log.error("Failed to save blind75 questions: {}", ex.getMessage(), ex);
+            throw new QuestionsAddFailedException(ex);
+        }
+    }
+
+    @Override
+    public void updateQuestion(UUID id, Blind75Request request) {
+        try {
+            Blind75Question question = blind75Repository.findById(id).orElseThrow(QuestionNotFoundException::new);
+
+            question.setTitle(request.getTitle());
+            question.setDifficulty(request.getDifficulty());
+            question.setTopic(request.getTopic());
+            question.setPattern(request.getPattern());
+            question.setPracticeLink(request.getPracticeLink());
+            question.setVideoSolutionLink(request.getVideoSolutionLink());
+            question.setVideoAvailability(request.getVideoAvailability());
+
+            blind75Repository.save(question);
+
+        } catch (AppException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to update blind75 question with id {}: {}", id, ex.getMessage(), ex);
             throw new QuestionsAddFailedException(ex);
         }
     }

@@ -14,6 +14,7 @@ public final class Constants {
     public static final int OTP_SENT = 2002;
     public static final int OTP_VERIFIED = 2003;
     public static final int QUESTIONS_ADDED_SUCCESSFULLY = 2004;
+    public static final int QUESTION_UPDATED_SUCCESSFULLY = 2005;
 
     // Failure codes (4xxx)
     public static final int INVALID_CREDENTIALS = 4000;
@@ -30,6 +31,7 @@ public final class Constants {
     public static final int AUTH_ERROR = 4011;
     public static final int RESOURCE_NOT_FOUND = 4012;
     public static final int QUESTIONS_ADD_FAILED = 4013;
+    public static final int QUESTION_NOT_FOUND = 4014;
 
     public static final Map<Integer, String> RESPONSE = Map.ofEntries(
 
@@ -38,7 +40,8 @@ public final class Constants {
             Map.entry(LOGIN_SUCCESS, "Login successful"),
             Map.entry(OTP_SENT, "OTP sent successfully"),
             Map.entry(OTP_VERIFIED, "OTP verified successfully"),
-            Map.entry(QUESTIONS_ADDED_SUCCESSFULLY, "Questions added successfully"),
+            Map.entry(QUESTIONS_ADDED_SUCCESSFULLY, "Questions added"),
+            Map.entry(QUESTION_UPDATED_SUCCESSFULLY, "Question updated"),
 
 
             //failure responses
@@ -55,6 +58,7 @@ public final class Constants {
             Map.entry(TOKEN_MISSING, "Authentication token is missing"),
             Map.entry(AUTH_ERROR, "Authentication error"),
             Map.entry(RESOURCE_NOT_FOUND, "Resource not found"),
-            Map.entry(QUESTIONS_ADD_FAILED, "Failed to add questions")
+            Map.entry(QUESTIONS_ADD_FAILED, "Failed to add questions"),
+            Map.entry(QUESTION_NOT_FOUND, "Question not found")
     );
 }
