@@ -25,7 +25,7 @@ public class Blind75Question {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String title;
 
     @Enumerated(EnumType.STRING)
