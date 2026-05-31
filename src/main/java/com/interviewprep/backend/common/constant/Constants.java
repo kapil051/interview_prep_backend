@@ -16,6 +16,7 @@ public final class Constants {
     public static final int QUESTIONS_ADDED = 2004;
     public static final int QUESTION_UPDATED = 2005;
     public static final int QUESTION_DELETED = 2006;
+    public static final int QUESTIONS_FETCHED = 2007;
 
     // Failure codes (4xxx)
     public static final int INVALID_CREDENTIALS = 4000;
@@ -35,6 +36,7 @@ public final class Constants {
     public static final int QUESTION_NOT_FOUND = 4014;
     public static final int QUESTION_UPDATE_FAILED = 4015;
     public static final int QUESTION_DELETE_FAILED = 4016;
+    public static final int QUESTIONS_FETCH_FAILED = 4017;
 
     public static final Map<Integer, String> RESPONSE = Map.ofEntries(
 
@@ -46,6 +48,7 @@ public final class Constants {
             Map.entry(QUESTIONS_ADDED, "Questions added"),
             Map.entry(QUESTION_UPDATED, "Question updated"),
             Map.entry(QUESTION_DELETED, "Question deleted"),
+            Map.entry(QUESTIONS_FETCHED, "Questions fetched"),
 
 
             //failure responses
@@ -65,6 +68,7 @@ public final class Constants {
             Map.entry(QUESTIONS_ADD_FAILED, "Failed to add questions"),
             Map.entry(QUESTION_NOT_FOUND, "Question not found"),
             Map.entry(QUESTION_UPDATE_FAILED, "Failed to update question"),
-            Map.entry(QUESTION_DELETE_FAILED, "Failed to delete question")
+            Map.entry(QUESTION_DELETE_FAILED, "Failed to delete question"),
+            Map.entry(QUESTIONS_FETCH_FAILED, "Failed to fetch questions")
     );
 }

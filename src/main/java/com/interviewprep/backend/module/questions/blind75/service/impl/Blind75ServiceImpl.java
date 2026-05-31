@@ -2,18 +2,24 @@ package com.interviewprep.backend.module.questions.blind75.service.impl;
 
 import com.interviewprep.backend.common.exception.AppException;
 import com.interviewprep.backend.module.questions.blind75.dto.request.Blind75Request;
+import com.interviewprep.backend.module.questions.blind75.dto.response.Blind75Response;
 import com.interviewprep.backend.module.questions.blind75.entity.Blind75Question;
-import com.interviewprep.backend.module.questions.blind75.exception.QuestionNotFoundException;
+import com.interviewprep.backend.module.questions.blind75.entity.UserQuestionProgress;
+import com.interviewprep.backend.module.questions.blind75.enums.ProgressStatus;
 import com.interviewprep.backend.module.questions.blind75.exception.QuestionDeleteFailedException;
+import com.interviewprep.backend.module.questions.blind75.exception.QuestionNotFoundException;
 import com.interviewprep.backend.module.questions.blind75.exception.QuestionUpdateFailedException;
 import com.interviewprep.backend.module.questions.blind75.exception.QuestionsAddFailedException;
+import com.interviewprep.backend.module.questions.blind75.exception.QuestionsFetchFailedException;
 import com.interviewprep.backend.module.questions.blind75.repository.Blind75Repository;
+import com.interviewprep.backend.module.questions.blind75.repository.UserProgressRepository;
 import com.interviewprep.backend.module.questions.blind75.service.Blind75Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -24,6 +30,7 @@ import java.util.stream.Collectors;
 public class Blind75ServiceImpl implements Blind75Service {
 
     private final Blind75Repository blind75Repository;
+    private final UserProgressRepository userProgressRepository;
 
     @Override
     public void addQuestions(List<Blind75Request> blind75RequestList) {
@@ -95,6 +102,40 @@ public class Blind75ServiceImpl implements Blind75Service {
         } catch (Exception ex) {
             log.error("Failed to delete blind75 question with id {}: {}", id, ex.getMessage(), ex);
             throw new QuestionDeleteFailedException(ex);
+        }
+    }
+
+    @Override
+    public List<Blind75Response> getAllQuestions(UUID userId) {
+        try {
+            List<Blind75Question> questions = blind75Repository.findAll();
+
+            Map<UUID, ProgressStatus> progressMap = userProgressRepository.findByUserId(userId)
+                    .stream()
+                    .collect(Collectors.toMap(
+                            progress -> progress.getQuestion().getId(),
+                            UserQuestionProgress::getStatus
+                    ));
+
+            return questions.stream()
+                    .map(question -> Blind75Response.builder()
+                            .id(question.getId())
+                            .title(question.getTitle())
+                            .difficulty(question.getDifficulty())
+                            .topic(question.getTopic())
+                            .pattern(question.getPattern())
+                            .practiceLink(question.getPracticeLink())
+                            .videoSolutionLink(question.getVideoSolutionLink())
+                            .videoAvailability(question.getVideoAvailability())
+                            .status(progressMap.getOrDefault(question.getId(), ProgressStatus.NOT_STARTED))
+                            .build())
+                    .toList();
+
+        } catch (AppException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to fetch blind75 questions for user {}: {}", userId, ex.getMessage(), ex);
+            throw new QuestionsFetchFailedException(ex);
         }
     }
 }

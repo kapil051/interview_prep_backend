@@ -2,6 +2,7 @@ package com.interviewprep.backend.module.questions.blind75.controller;
 
 import com.interviewprep.backend.common.constant.Constants;
 import com.interviewprep.backend.common.response.ApiResponse;
+import com.interviewprep.backend.common.security.CustomUserDetails;
 import com.interviewprep.backend.module.questions.blind75.dto.request.Blind75Request;
 import com.interviewprep.backend.module.questions.blind75.service.Blind75Service;
 import jakarta.validation.Valid;
@@ -9,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -46,5 +49,12 @@ public class Blind75Controller {
     public ResponseEntity<ApiResponse> deleteQuestion(@PathVariable UUID id) {
         blind75Service.deleteQuestion(id);
         return ResponseEntity.ok(ApiResponse.builder().code(Constants.QUESTION_DELETED).success(true).build());
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse> getAllQuestions(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        UUID userId = userDetails.getUser().getId();
+        List<?> questions = blind75Service.getAllQuestions(userId);
+        return ResponseEntity.ok(ApiResponse.builder().code(Constants.QUESTIONS_FETCHED).success(true).data(questions).build());
     }
 }
