@@ -1,11 +1,15 @@
 package com.interviewprep.backend.module.questions.blind75.service.impl;
 
 import com.interviewprep.backend.common.exception.AppException;
+import com.interviewprep.backend.module.auth.entity.User;
+import com.interviewprep.backend.module.auth.repository.UserRepository;
 import com.interviewprep.backend.module.questions.blind75.dto.request.Blind75Request;
+import com.interviewprep.backend.module.questions.blind75.dto.request.ProgressRequest;
 import com.interviewprep.backend.module.questions.blind75.dto.response.Blind75Response;
 import com.interviewprep.backend.module.questions.blind75.entity.Blind75Question;
 import com.interviewprep.backend.module.questions.blind75.entity.UserQuestionProgress;
 import com.interviewprep.backend.module.questions.blind75.enums.ProgressStatus;
+import com.interviewprep.backend.module.questions.blind75.exception.ProgressUpdateFailedException;
 import com.interviewprep.backend.module.questions.blind75.exception.QuestionDeleteFailedException;
 import com.interviewprep.backend.module.questions.blind75.exception.QuestionNotFoundException;
 import com.interviewprep.backend.module.questions.blind75.exception.QuestionUpdateFailedException;
@@ -31,6 +35,7 @@ public class Blind75ServiceImpl implements Blind75Service {
 
     private final Blind75Repository blind75Repository;
     private final UserProgressRepository userProgressRepository;
+    private final UserRepository userRepository;
 
     @Override
     public void addQuestions(List<Blind75Request> blind75RequestList) {
@@ -136,6 +141,40 @@ public class Blind75ServiceImpl implements Blind75Service {
         } catch (Exception ex) {
             log.error("Failed to fetch blind75 questions for user {}: {}", userId, ex.getMessage(), ex);
             throw new QuestionsFetchFailedException(ex);
+        }
+    }
+
+    @Override
+    public List<ProgressStatus> getStatuses() {
+        return List.of(ProgressStatus.SOLVED, ProgressStatus.ATTEMPTED, ProgressStatus.TODO);
+    }
+
+    @Override
+    public void updateProgress(UUID questionId, UUID userId, ProgressRequest request) {
+        try {
+            Blind75Question question = blind75Repository.findById(questionId).orElseThrow(QuestionNotFoundException::new);
+
+            userProgressRepository.findByUserIdAndQuestionId(userId, questionId)
+                    .ifPresentOrElse(
+                            progress -> {
+                                progress.setStatus(request.getStatus());
+                                userProgressRepository.save(progress);
+                            },
+                            () -> {
+                                User user = userRepository.getReferenceById(userId);
+                                userProgressRepository.save(UserQuestionProgress.builder()
+                                        .user(user)
+                                        .question(question)
+                                        .status(request.getStatus())
+                                        .build());
+                            }
+                    );
+
+        } catch (AppException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to update progress for question {} and user {}: {}", questionId, userId, ex.getMessage(), ex);
+            throw new ProgressUpdateFailedException(ex);
         }
     }
 }
