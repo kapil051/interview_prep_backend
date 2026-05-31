@@ -4,6 +4,7 @@ import com.interviewprep.backend.common.exception.AppException;
 import com.interviewprep.backend.module.questions.blind75.dto.request.Blind75Request;
 import com.interviewprep.backend.module.questions.blind75.entity.Blind75Question;
 import com.interviewprep.backend.module.questions.blind75.exception.QuestionNotFoundException;
+import com.interviewprep.backend.module.questions.blind75.exception.QuestionDeleteFailedException;
 import com.interviewprep.backend.module.questions.blind75.exception.QuestionUpdateFailedException;
 import com.interviewprep.backend.module.questions.blind75.exception.QuestionsAddFailedException;
 import com.interviewprep.backend.module.questions.blind75.repository.Blind75Repository;
@@ -80,6 +81,20 @@ public class Blind75ServiceImpl implements Blind75Service {
         } catch (Exception ex) {
             log.error("Failed to update blind75 question with id {}: {}", id, ex.getMessage(), ex);
             throw new QuestionUpdateFailedException(ex);
+        }
+    }
+
+    @Override
+    public void deleteQuestion(UUID id) {
+        try {
+            blind75Repository.findById(id).orElseThrow(QuestionNotFoundException::new);
+            blind75Repository.deleteById(id);
+
+        } catch (AppException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error("Failed to delete blind75 question with id {}: {}", id, ex.getMessage(), ex);
+            throw new QuestionDeleteFailedException(ex);
         }
     }
 }

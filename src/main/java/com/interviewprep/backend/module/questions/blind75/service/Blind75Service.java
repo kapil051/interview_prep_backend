@@ -10,4 +10,6 @@ public interface Blind75Service {
     void addQuestions(List<Blind75Request> requests);
 
     void updateQuestion(UUID id, Blind75Request request);
+
+    void deleteQuestion(UUID id);
 }

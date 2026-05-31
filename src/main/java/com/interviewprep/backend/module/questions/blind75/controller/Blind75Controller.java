@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,13 +31,20 @@ public class Blind75Controller {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse> addQuestions(@Valid @RequestBody List<@Valid Blind75Request> requests) {
         blind75Service.addQuestions(requests);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.builder().code(Constants.QUESTIONS_ADDED_SUCCESSFULLY).success(true).build());
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.builder().code(Constants.QUESTIONS_ADDED).success(true).build());
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse> updateQuestion(@PathVariable UUID id, @Valid @RequestBody Blind75Request request) {
         blind75Service.updateQuestion(id, request);
-        return ResponseEntity.ok(ApiResponse.builder().code(Constants.QUESTION_UPDATED_SUCCESSFULLY).success(true).build());
+        return ResponseEntity.ok(ApiResponse.builder().code(Constants.QUESTION_UPDATED).success(true).build());
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse> deleteQuestion(@PathVariable UUID id) {
+        blind75Service.deleteQuestion(id);
+        return ResponseEntity.ok(ApiResponse.builder().code(Constants.QUESTION_DELETED).success(true).build());
     }
 }
