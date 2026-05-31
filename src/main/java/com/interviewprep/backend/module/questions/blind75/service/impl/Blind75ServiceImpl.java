@@ -4,6 +4,7 @@ import com.interviewprep.backend.common.exception.AppException;
 import com.interviewprep.backend.module.questions.blind75.dto.request.Blind75Request;
 import com.interviewprep.backend.module.questions.blind75.entity.Blind75Question;
 import com.interviewprep.backend.module.questions.blind75.exception.QuestionNotFoundException;
+import com.interviewprep.backend.module.questions.blind75.exception.QuestionUpdateFailedException;
 import com.interviewprep.backend.module.questions.blind75.exception.QuestionsAddFailedException;
 import com.interviewprep.backend.module.questions.blind75.repository.Blind75Repository;
 import com.interviewprep.backend.module.questions.blind75.service.Blind75Service;
@@ -78,7 +79,7 @@ public class Blind75ServiceImpl implements Blind75Service {
             throw ex;
         } catch (Exception ex) {
             log.error("Failed to update blind75 question with id {}: {}", id, ex.getMessage(), ex);
-            throw new QuestionsAddFailedException(ex);
+            throw new QuestionUpdateFailedException(ex);
         }
     }
 }

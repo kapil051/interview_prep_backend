@@ -32,6 +32,7 @@ public final class Constants {
     public static final int RESOURCE_NOT_FOUND = 4012;
     public static final int QUESTIONS_ADD_FAILED = 4013;
     public static final int QUESTION_NOT_FOUND = 4014;
+    public static final int QUESTION_UPDATE_FAILED = 4015;
 
     public static final Map<Integer, String> RESPONSE = Map.ofEntries(
 
@@ -59,6 +60,7 @@ public final class Constants {
             Map.entry(AUTH_ERROR, "Authentication error"),
             Map.entry(RESOURCE_NOT_FOUND, "Resource not found"),
             Map.entry(QUESTIONS_ADD_FAILED, "Failed to add questions"),
-            Map.entry(QUESTION_NOT_FOUND, "Question not found")
+            Map.entry(QUESTION_NOT_FOUND, "Question not found"),
+            Map.entry(QUESTION_UPDATE_FAILED, "Failed to update question")
     );
 }
