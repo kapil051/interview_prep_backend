@@ -13,6 +13,12 @@ public final class Constants {
     public static final int LOGIN_SUCCESS = 2001;
     public static final int OTP_SENT = 2002;
     public static final int OTP_VERIFIED = 2003;
+    public static final int QUESTIONS_ADDED = 2004;
+    public static final int QUESTION_UPDATED = 2005;
+    public static final int QUESTION_DELETED = 2006;
+    public static final int QUESTIONS_FETCHED = 2007;
+    public static final int STATUSES_FETCHED = 2008;
+    public static final int PROGRESS_UPDATED = 2009;
 
     // Failure codes (4xxx)
     public static final int INVALID_CREDENTIALS = 4000;
@@ -28,14 +34,26 @@ public final class Constants {
     public static final int TOKEN_MISSING = 4010;
     public static final int AUTH_ERROR = 4011;
     public static final int RESOURCE_NOT_FOUND = 4012;
+    public static final int QUESTIONS_ADD_FAILED = 4013;
+    public static final int QUESTION_NOT_FOUND = 4014;
+    public static final int QUESTION_UPDATE_FAILED = 4015;
+    public static final int QUESTION_DELETE_FAILED = 4016;
+    public static final int QUESTIONS_FETCH_FAILED = 4017;
+    public static final int PROGRESS_UPDATE_FAILED = 4018;
 
     public static final Map<Integer, String> RESPONSE = Map.ofEntries(
 
             //success responses
-            Map.entry(USER_REGISTERED, "User registered successfully"),
-            Map.entry(LOGIN_SUCCESS, "Login successful"),
-            Map.entry(OTP_SENT, "OTP sent successfully"),
-            Map.entry(OTP_VERIFIED, "OTP verified successfully"),
+            Map.entry(USER_REGISTERED, "User registered"),
+            Map.entry(LOGIN_SUCCESS, "Login success"),
+            Map.entry(OTP_SENT, "OTP sent"),
+            Map.entry(OTP_VERIFIED, "OTP verified"),
+            Map.entry(QUESTIONS_ADDED, "Questions added"),
+            Map.entry(QUESTION_UPDATED, "Question updated"),
+            Map.entry(QUESTION_DELETED, "Question deleted"),
+            Map.entry(QUESTIONS_FETCHED, "Questions fetched"),
+            Map.entry(STATUSES_FETCHED, "Statuses fetched"),
+            Map.entry(PROGRESS_UPDATED, "Progress updated"),
 
 
             //failure responses
@@ -51,6 +69,12 @@ public final class Constants {
             Map.entry(INVALID_ARGUMENT, "Invalid argument"),
             Map.entry(TOKEN_MISSING, "Authentication token is missing"),
             Map.entry(AUTH_ERROR, "Authentication error"),
-            Map.entry(RESOURCE_NOT_FOUND, "Resource not found")
+            Map.entry(RESOURCE_NOT_FOUND, "Resource not found"),
+            Map.entry(QUESTIONS_ADD_FAILED, "Failed to add questions"),
+            Map.entry(QUESTION_NOT_FOUND, "Question not found"),
+            Map.entry(QUESTION_UPDATE_FAILED, "Failed to update question"),
+            Map.entry(QUESTION_DELETE_FAILED, "Failed to delete question"),
+            Map.entry(QUESTIONS_FETCH_FAILED, "Failed to fetch questions"),
+            Map.entry(PROGRESS_UPDATE_FAILED, "Failed to update progress")
     );
 }
